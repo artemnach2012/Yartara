@@ -1,22 +1,40 @@
 import openpyxl
 import re
 import json
+import os
+import datetime
 from pathlib import Path
 
 EXCEL_FILE = "data/опт 01.06..xlsx"
 JSON_FILE = "data/products.json"
+OLD_JSON = "data/products_old.json"   # для сравнения
 
 if not Path(EXCEL_FILE).exists():
     print(f"❌ Файл не найден: {EXCEL_FILE}")
     exit(1)
 
 wb = openpyxl.load_workbook(EXCEL_FILE, data_only=True)
-sheet = wb.active   # Лист_1
+sheet = wb.active
 
-START_ROW = 8     # первая строка с товарами
-NAME_COL = 5      # колонка E
-PRICE_COL = 14    # колонка N
-STOCK_COL = 15    # колонка O
+START_ROW = 8
+NAME_COL = 5
+PRICE_COL = 14
+STOCK_COL = 15
+
+# ---- Загрузка старой версии (если есть) ----
+old_products = {}
+if os.path.exists(OLD_JSON):
+    with open(OLD_JSON, 'r', encoding='utf-8') as f:
+        old_data = json.load(f)
+        # Может быть два формата: просто список или словарь с ключом "items"
+        if isinstance(old_data, list):
+            old_list = old_data
+        elif isinstance(old_data, dict) and "items" in old_data:
+            old_list = old_data["items"]
+        else:
+            old_list = []
+        for p in old_list:
+            old_products[p['id']] = p
 
 products = []
 pid = 1
@@ -31,12 +49,9 @@ for row_idx in range(START_ROW, sheet.max_row + 1):
     name = name.strip()
     if len(name) < 3:
         continue
-
-    # Пропускаем пустые или служебные строки
     if any(x in name for x in ['Итого', 'Всего', 'Прайс-лист']):
         continue
 
-    # Преобразуем цену и остаток
     try:
         if price_cell is None or stock_cell is None:
             continue
@@ -59,6 +74,8 @@ for row_idx in range(START_ROW, sheet.max_row + 1):
         category = 'Бутылки и бутыли'
     elif 'крышк' in name_low or 'колпач' in name_low:
         category = 'Крышки и колпачки'
+    elif 'пленк' in name_low or 'агро' in name_low or 'теплич' in name_low:
+        category = 'Сад и огород'
     else:
         category = 'Разное'
 
@@ -78,8 +95,16 @@ for row_idx in range(START_ROW, sheet.max_row + 1):
         description += f"🔘 Диаметр горла: {diameter}\n"
     description += "🚚 Отгрузка от 1 шт. При заказе от 5000 руб — бесплатная доставка по Новосибирску.\n⭐ Идеально для консервации, виноделия и домашнего хозяйства."
 
-    # Изображения (заглушки, можно заменить потом)
+    # Заглушки изображений (можно позже заменить на реальные фото)
     images = [f"https://via.placeholder.com/400x300?text={name[:30]}" for _ in range(3)]
+
+    # Проверка изменений
+    old = old_products.get(pid)
+    changed = False
+    if old:
+        if old.get('price') != price_val or old.get('stock') != stock_val:
+            changed = True
+    # Первый запуск – ничего не помечаем как изменённое (или можно пометить все как новые? – лучше не надо)
 
     products.append({
         "id": pid,
@@ -90,19 +115,32 @@ for row_idx in range(START_ROW, sheet.max_row + 1):
         "diameter": diameter,
         "category": category,
         "description": description,
-        "images": images
+        "images": images,
+        "is_changed_today": changed   # флаг для подсветки
     })
     pid += 1
 
-# Сохраняем JSON
+# Добавляем дату последнего обновления и оборачиваем в объект
+now_iso = datetime.datetime.now().isoformat()
+output_data = {
+    "last_updated": now_iso,
+    "last_updated_human": datetime.datetime.now().strftime("%d.%m.%Y в %H:%M"),
+    "total_items": len(products),
+    "items": products
+}
+
+# Сохраняем новый JSON
 Path("data").mkdir(exist_ok=True)
 with open(JSON_FILE, 'w', encoding='utf-8') as f:
-    json.dump(products, f, ensure_ascii=False, indent=2)
+    json.dump(output_data, f, ensure_ascii=False, indent=2)
+
+# Сохраняем копию как старую версию для будущих сравнений
+with open(OLD_JSON, 'w', encoding='utf-8') as f:
+    json.dump(output_data, f, ensure_ascii=False, indent=2)
 
 print(f"✅ Обработано товаров: {len(products)}")
+print(f"📅 Дата обновления: {output_data['last_updated_human']}")
 if products:
-    print("Пример первых трёх:")
+    print("Пример первых трёх товаров с флагом изменений:")
     for p in products[:3]:
-        print(f"  - {p['name']} | {p['price']} ₽ | остаток {p['stock']}")
-else:
-    print("⚠️ Товаров не найдено. Проверьте Excel.")
+        print(f"  - {p['name']} | цена {p['price']} ₽ | изменён сегодня: {p['is_changed_today']}")
