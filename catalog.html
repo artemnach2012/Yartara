@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Каталог ЯрТара</title>
+    <style>
+        body { font-family: Arial; margin: 20px; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px,1fr)); gap: 20px; }
+        .product-card { border: 1px solid #ddd; padding: 10px; border-radius: 8px; transition: 0.2s; }
+        .product-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); transform: translateY(-2px); }
+        .product-link { text-decoration: none; color: inherit; display: block; }
+    </style>
+</head>
+<body>
+    <h1>Каталог товаров</h1>
+    <div id="catalogGrid" class="products-grid"></div>
+    <script>
+        fetch('data/products.json')
+            .then(response => response.json())
+            .then(products => {
+                const grid = document.getElementById('catalogGrid');
+                grid.innerHTML = products.map(p => `
+                    <a href="product.html?id=${p.id}" class="product-link">
+                        <div class="product-card">
+                            <h3>${escapeHtml(p.name)}</h3>
+                            <p>💰 Цена: ${p.price} ₽</p>
+                            <p>📦 Остаток: ${p.stock} шт</p>
+                        </div>
+                    </a>
+                `).join('');
+            })
+            .catch(err => {
+                document.getElementById('catalogGrid').innerHTML = '<p style="color:red;">❌ Ошибка загрузки. Убедись, что открыто через http://localhost:8000</p>';
+                console.error(err);
+            });
+
+        function escapeHtml(str) {
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
+    </script>
+</body>
+</html>
