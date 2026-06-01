@@ -4,57 +4,82 @@
     <meta charset="UTF-8">
     <title>Каталог ЯрТара</title>
     <style>
-        body { font-family: Arial; margin: 20px; }
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px,1fr)); gap: 20px; }
-        .product-card { border: 1px solid #ddd; padding: 10px; border-radius: 8px; transition: 0.2s; background: white; }
-        .product-card.changed { border: 2px solid #ffcc00; background: #fff9e6; }
-        .product-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); transform: translateY(-2px); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f8f9fa; color: #333; }
+        .container { max-width: 1200px; margin: auto; padding: 0 20px; }
+        header { background: #2c3e50; color: white; padding: 1rem 0; }
+        header .container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+        .logo h1 { font-size: 1.8rem; color: #e67e22; }
+        .logo p { font-size: 0.9rem; opacity: 0.8; }
+        nav ul { display: flex; list-style: none; gap: 1.5rem; }
+        nav a { color: white; text-decoration: none; }
+        nav a:hover { color: #e67e22; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: 20px; margin: 30px 0; }
+        .product-card { background: white; border: 1px solid #ddd; border-radius: 12px; padding: 1.2rem; transition: 0.2s; }
+        .product-card:hover { transform: translateY(-3px); box-shadow: 0 6px 14px rgba(0,0,0,0.1); }
         .product-link { text-decoration: none; color: inherit; display: block; }
-        .update-info { background: #e8f5e9; padding: 8px 15px; border-radius: 8px; margin-bottom: 20px; display: inline-block; }
-        .badge { background: #ffcc00; color: #b45f06; font-size: 12px; padding: 2px 6px; border-radius: 12px; margin-left: 8px; }
+        .price { font-size: 1.4rem; font-weight: bold; color: #e67e22; margin: 10px 0; }
+        .stock { color: #27ae60; font-weight: 500; }
+        .update-info { background: #e3f2fd; padding: 8px 16px; border-radius: 20px; display: inline-block; margin: 20px 0; }
+        footer { background: #2c3e50; color: white; text-align: center; padding: 1.5rem; margin-top: 2rem; }
+        @media (max-width: 768px) { header .container { flex-direction: column; text-align: center; } }
     </style>
 </head>
 <body>
-    <h1>Каталог товаров</h1>
-    <div id="updateInfo" class="update-info"></div>
-    <div id="catalogGrid" class="products-grid"></div>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>ЯрТара</h1>
+                <p>Стеклянные банки и товары для дома оптом</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="catalog.html">Каталог</a></li>
+                    <li><a href="index.html#contacts">Контакты</a></li>
+                </ul>
+            </nav>
+            <div class="contact-info">
+                <p>📍 г. Новосибирск, ул. Сибиряков-Гвардейцев, 49/1 корпус 18/1</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>Каталог товаров</h1>
+        <div id="updateInfo" class="update-info">Загрузка...</div>
+        <div id="catalogGrid" class="products-grid"></div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 ЯрТара. Все права защищены. Цены оптовые, с НДС.</p>
+        </div>
+    </footer>
 
     <script>
         fetch('data/products.json')
-            .then(response => response.json())
-            .then(data => {
-                // data содержит { last_updated, last_updated_human, total_items, items }
-                const products = data.items;
-                const lastUpdated = data.last_updated_human || new Date(data.last_updated).toLocaleString('ru-RU');
-                document.getElementById('updateInfo').innerHTML = `
-                    📅 Прайс-лист обновлён: <strong>${lastUpdated}</strong> &nbsp;|&nbsp;
-                    🏷️ Всего товаров: ${products.length}
-                    <span style="margin-left: 15px;">🟡 Золотая рамка = цена/остаток изменились сегодня</span>
-                `;
-
+            .then(res => res.json())
+            .then(products => {
+                document.getElementById('updateInfo').innerHTML = `📅 Прайс-лист от 01.06.2026 · Всего товаров: ${products.length}`;
                 const grid = document.getElementById('catalogGrid');
                 grid.innerHTML = products.map(p => `
                     <a href="product.html?id=${p.id}" class="product-link">
-                        <div class="product-card ${p.is_changed_today ? 'changed' : ''}">
-                            <h3>${escapeHtml(p.name)} ${p.is_changed_today ? '<span class="badge">🆕 обновлено</span>' : ''}</h3>
-                            <p>💰 Цена: ${p.price} ₽</p>
-                            <p>📦 Остаток: ${p.stock} шт</p>
+                        <div class="product-card">
+                            <h3>${escapeHtml(p.name)}</h3>
+                            <div class="price">💰 ${p.price.toFixed(2)} ₽</div>
+                            <div class="stock">📦 Остаток: ${p.stock} шт</div>
                         </div>
                     </a>
                 `).join('');
             })
             .catch(err => {
-                document.getElementById('catalogGrid').innerHTML = '<p style="color:red;">❌ Ошибка загрузки. Убедись, что открыто через http://localhost:8000 или GitHub Pages.</p>';
+                document.getElementById('catalogGrid').innerHTML = '<p style="color:red;">❌ Ошибка загрузки. Проверьте, что файл data/products.json существует.</p>';
                 console.error(err);
             });
 
         function escapeHtml(str) {
-            return str.replace(/[&<>]/g, function(m) {
-                if (m === '&') return '&amp;';
-                if (m === '<') return '&lt;';
-                if (m === '>') return '&gt;';
-                return m;
-            });
+            return str.replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]));
         }
     </script>
 </body>
