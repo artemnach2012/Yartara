@@ -64,7 +64,8 @@
             }
             try {
                 const res = await fetch('data/products.json');
-                const products = await res.json();
+                const data = await res.json();
+                const products = data.items;
                 const product = products.find(p => p.id == productId);
                 if (!product) throw new Error();
                 container.innerHTML = `

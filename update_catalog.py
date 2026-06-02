@@ -1,6 +1,7 @@
 import openpyxl
 import re
 import json
+import datetime
 from pathlib import Path
 
 EXCEL_FILE = "data/опт 01.06..xlsx"
@@ -14,16 +15,12 @@ wb = openpyxl.load_workbook(EXCEL_FILE, data_only=True)
 sheet = wb.active
 
 START_ROW = 8
-NAME_COL = 5
-PRICE_COL = 14
-STOCK_COL = 15
+NAME_COL = 5      # E
+PRICE_COL = 14    # N
+STOCK_COL = 15    # O
 
 products = []
 pid = 1
-skipped_empty = 0
-skipped_short = 0
-skipped_stopword = 0
-skipped_no_price = 0
 
 for row_idx in range(START_ROW, sheet.max_row + 1):
     name = sheet.cell(row=row_idx, column=NAME_COL).value
@@ -31,19 +28,15 @@ for row_idx in range(START_ROW, sheet.max_row + 1):
     stock_cell = sheet.cell(row=row_idx, column=STOCK_COL).value
 
     if not name or not isinstance(name, str):
-        skipped_empty += 1
         continue
     name = name.strip()
-    if len(name) < 2:   # теперь 2 символа минимум
-        skipped_short += 1
+    if len(name) < 3:
         continue
     if any(x in name for x in ['Итого', 'Всего', 'Прайс-лист']):
-        skipped_stopword += 1
         continue
 
     try:
         if price_cell is None or stock_cell is None:
-            skipped_no_price += 1
             continue
         if isinstance(price_cell, (int, float)):
             price_val = float(price_cell)
@@ -94,22 +87,16 @@ for row_idx in range(START_ROW, sheet.max_row + 1):
     })
     pid += 1
 
+# Добавляем мета-информацию и дату
+output_data = {
+    "last_updated": datetime.datetime.now().strftime("%d.%m.%Y"),
+    "total_items": len(products),
+    "items": products
+}
+
 Path("data").mkdir(exist_ok=True)
 with open(JSON_FILE, 'w', encoding='utf-8') as f:
-    json.dump(products, f, ensure_ascii=False, indent=2)
+    json.dump(output_data, f, ensure_ascii=False, indent=2)
 
-print(f"\n✅ Обработано товаров: {len(products)}")
-print(f"Пропущено (пустое имя): {skipped_empty}")
-print(f"Пропущено (имя короче 2): {skipped_short}")
-print(f"Пропущено (стоп-слова): {skipped_stopword}")
-print(f"Пропущено (нет цены или остатка): {skipped_no_price}")
-
-if products:
-    print("\nПервые 3 товара:")
-    for p in products[:3]:
-        print(f"  - {p['name']} | {p['price']} ₽ | остаток {p['stock']:.0f}")
-    print("\nПоследние 3 товара:")
-    for p in products[-3:]:
-        print(f"  - {p['name']} | {p['price']} ₽ | остаток {p['stock']:.0f}")
-else:
-    print("⚠️ Товаров не найдено. Проверьте Excel и параметры.")
+print(f"✅ Обработано товаров: {len(products)}")
+print(f"📅 Дата обновления: {output_data['last_updated']}")

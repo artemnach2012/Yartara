@@ -60,8 +60,10 @@
     <script>
         fetch('data/products.json')
             .then(res => res.json())
-            .then(products => {
-                document.getElementById('updateInfo').innerHTML = `📅 Прайс-лист от 02.06.2026 · Всего товаров: ${products.length}`;
+            .then(data => {
+                const products = data.items;
+                const lastUpdated = data.last_updated || "неизвестно";
+                document.getElementById('updateInfo').innerHTML = `📅 Прайс-лист обновлён: ${lastUpdated} · Всего товаров: ${products.length}`;
                 const grid = document.getElementById('catalogGrid');
                 grid.innerHTML = products.map(p => `
                     <a href="product.html?id=${p.id}" class="product-link">
