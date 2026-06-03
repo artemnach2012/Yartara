@@ -65,12 +65,13 @@ for row_idx in range(START_ROW, sheet.max_row + 1):
     diam_match = re.search(r'd(\d+)', name)
     diameter = f"d{diam_match.group(1)}" if diam_match else ''
 
+    # НОВОЕ ОПИСАНИЕ (без доставки, с условием опта)
     description = f"✨ {name} ✨\n\n💰 Цена: {price_val:.2f} руб. (опт, с НДС)\n📦 В наличии: {stock_val:.0f} шт.\n"
     if volume:
         description += f"📏 Объём: {volume}\n"
     if diameter:
         description += f"🔘 Диаметр горла: {diameter}\n"
-    description += "🚚 Отгрузка от 1 шт. При заказе от 5000 руб — бесплатная доставка по Новосибирску."
+    description += "💰 Оптовая цена на стеклотару действует при заказе от 5000 ₽\n⭐ Идеально для консервации, виноделия и домашнего хозяйства."
 
     images = [f"https://via.placeholder.com/400x300?text={name[:30]}" for _ in range(3)]
 
@@ -87,7 +88,7 @@ for row_idx in range(START_ROW, sheet.max_row + 1):
     })
     pid += 1
 
-# Добавляем мета-информацию и дату
+# Мета-информация с датой
 output_data = {
     "last_updated": datetime.datetime.now().strftime("%d.%m.%Y"),
     "total_items": len(products),
