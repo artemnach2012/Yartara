@@ -63,7 +63,7 @@
             .then(data => {
                 const products = data.items;
                 const lastUpdated = data.last_updated || "неизвестно";
-                document.getElementById('updateInfo').innerHTML = `📅 Прайс-лист обновлён: ${lastUpdated} · Всего товаров: ${products.length}`;
+                document.getElementById('updateInfo').innerHTML = `📅 Прайс-лист обновлён: 16.06.2026 · Всего товаров: ${products.length}`;
                 const grid = document.getElementById('catalogGrid');
                 grid.innerHTML = products.map(p => `
                     <a href="product.html?id=${p.id}" class="product-link">
