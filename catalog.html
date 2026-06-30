@@ -58,7 +58,7 @@
     </footer>
 
     <script>
-        fetch('data/products.json')
+        fetch('data/products.json?v=' + Date.now())
             .then(res => res.json())
             .then(data => {
                 const products = data.items;
