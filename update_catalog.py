@@ -4,7 +4,7 @@ import json
 import datetime
 from pathlib import Path
 
-EXCEL_FILE = "data/опт 01.06..xlsx"
+EXCEL_FILE = "data/опт 21.07.26.xlsx"
 JSON_FILE = "data/products.json"
 
 if not Path(EXCEL_FILE).exists():
@@ -99,5 +99,5 @@ Path("data").mkdir(exist_ok=True)
 with open(JSON_FILE, 'w', encoding='utf-8') as f:
     json.dump(output_data, f, ensure_ascii=False, indent=2)
 
-print(f"✅ Обработано товаров: {len(products)}")
-print(f"📅 Дата обновления: {output_data['last_updated']}")
+print(f"OK. Обработано товаров: {len(products)}")
+print(f"Дата обновления: {output_data['last_updated']}")
