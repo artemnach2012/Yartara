@@ -173,11 +173,16 @@
         .price { 
             font-size: 1.6rem; 
             font-weight: 800;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: #e67e22;
             margin: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .price-icon {
+            font-size: 2rem;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
         }
         
         .stock { 
@@ -266,7 +271,7 @@
                 </ul>
             </nav>
             <div class="contact-info">
-                <p>📍 г. Новосибирск, ул. Сибиряков-Гвардейцев, 49/1</p>
+                <p>📍 г. Новосибирск, ул. Сибиряков-Гвардейцев, 49/1 корпус 18/1</p>
             </div>
         </div>
     </header>
@@ -301,7 +306,7 @@
                     <a href="product.html?id=${p.id}" class="product-link" style="animation-delay: ${index * 0.02}s">
                         <div class="product-card">
                             <h3>${escapeHtml(p.name)}</h3>
-                            <div class="price">💰 ${p.price.toFixed(2)} ₽</div>
+                            <div class="price"><span class="price-icon">💰</span> ${p.price.toFixed(2)} ₽</div>
                             <div class="stock">📦 Остаток: ${p.stock} шт</div>
                             <span class="category-badge">${p.category}</span>
                         </div>
