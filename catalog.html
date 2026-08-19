@@ -590,14 +590,7 @@
         </div>
         <div class="filters-section" id="filtersSection">
             <div class="filter-group">
-                <span class="filter-label">📂 Категории:</span>
-                <div class="category-filters" id="categoryFilters">
-                    <button class="category-tag active" data-category="all">Все</button>
-                </div>
-            </div>
-            
-            <div class="filter-group">
-                <span class="filter-label">👁️ Вид отображения:</span>
+                <span class="filter-label">️ Вид отображения:</span>
                 <div class="view-toggle">
                     <button id="gridViewBtn" class="active">📊 Сетка</button>
                     <button id="tableViewBtn">📋 Таблица</button>
@@ -635,7 +628,6 @@
         });
 
         let allProducts = [];
-        let currentCategory = 'all';
         let currentView = 'grid';
         let priceFilter = { from: null, to: null };
 
@@ -646,21 +638,12 @@
                 const lastUpdated = data.last_updated || "неизвестно";
                 document.getElementById('updateInfo').innerHTML = `📅 Прайс-лист обновлён: ${data.last_updated} · Всего товаров: ${allProducts.length}`;
                 
-                // Динамическая загрузка категорий
-                loadCategories(data.items);
-                
-                renderProducts(allProducts);
+                        renderProducts(allProducts);
             })
             .catch(err => {
                 document.getElementById('catalogGrid').innerHTML = '<div class="error-message">❌ Ошибка загрузки. Проверьте, что файл data/products.json существует.</div>';
                 console.error(err);
             });
-
-        function getRelatedProducts(product, allProducts, count = 3) {
-            return allProducts
-                .filter(p => p.category === product.category && p.id !== product.id)
-                .slice(0, count);
-        }
 
         function renderProducts(products) {
             const grid = document.getElementById('catalogGrid');
@@ -671,16 +654,6 @@
                 table.classList.add('hidden');
                 
                 grid.innerHTML = products.map((p, index) => {
-                    const related = getRelatedProducts(p, allProducts);
-                    const relatedHtml = related.length > 0 ? `
-                        <div class="related-products">
-                            <h4>🛒 С этим товаром покупают:</h4>
-                            <ul>
-                                ${related.map(r => `<li>${escapeHtml(r.name)}</li>`).join('')}
-                            </ul>
-                        </div>
-                    ` : '';
-                    
                     return `
                     <a href="product.html?id=${p.id}" class="product-link" style="animation-delay: ${index * 0.02}s">
                         <div class="product-card">
@@ -702,7 +675,6 @@
                                     ✈️ Telegram
                                 </a>
                             </div>
-                            ${relatedHtml}
                         </div>
                     </a>
                     `;
@@ -751,25 +723,6 @@
             }
         }
 
-        function loadCategories(products) {
-            const categoriesContainer = document.getElementById('categoryFilters');
-            const categories = [...new Set(products.map(p => p.category))].sort();
-            
-            // Сохраняем кнопку "Все"
-            const allButton = categoriesContainer.querySelector('[data-category="all"]');
-            categoriesContainer.innerHTML = '';
-            categoriesContainer.appendChild(allButton);
-            
-            // Добавляем категории
-            categories.forEach(cat => {
-                const btn = document.createElement('button');
-                btn.className = 'category-tag';
-                btn.dataset.category = cat;
-                btn.textContent = cat;
-                categoriesContainer.appendChild(btn);
-            });
-        }
-
         function escapeHtml(str) {
             return str.replace(/[&<>]/g, m => ({'&':'&','<':'<','>':'>'}[m]));
         }
@@ -781,16 +734,6 @@
                 filterProducts();
             });
         }
-
-        // Фильтр по категориям
-        document.getElementById('categoryFilters').addEventListener('click', function(e) {
-            if (e.target.classList.contains('category-tag')) {
-                document.querySelectorAll('.category-tag').forEach(tag => tag.classList.remove('active'));
-                e.target.classList.add('active');
-                currentCategory = e.target.dataset.category;
-                filterProducts();
-            }
-        });
 
         // Переключатель вида
         document.getElementById('gridViewBtn').addEventListener('click', function() {
@@ -828,10 +771,9 @@
             
             let filtered = allProducts.filter(p => {
                 const matchesSearch = p.name.toLowerCase().includes(searchQuery);
-                const matchesCategory = currentCategory === 'all' || p.category === currentCategory;
                 const matchesPrice = (!priceFilter.from || p.price >= priceFilter.from) && 
                                    (!priceFilter.to || p.price <= priceFilter.to);
-                return matchesSearch && matchesCategory && matchesPrice;
+                return matchesSearch && matchesPrice;
             });
             
             renderProducts(filtered);
