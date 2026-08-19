@@ -416,16 +416,6 @@
             margin-top: 0.8rem;
         }
         
-        .packaging-info {
-            background: #f8f9fa;
-            padding: 0.8rem;
-            border-radius: 10px;
-            margin-top: 0.8rem;
-            font-size: 0.85rem;
-            color: #555;
-            border-left: 3px solid #667eea;
-        }
-        
         .messenger-buttons {
             display: flex;
             gap: 0.5rem;
@@ -698,9 +688,6 @@
                             <div class="price"><span class="price-icon">💰</span> ${p.price.toFixed(2)} ₽</div>
                             <div class="stock">📦 Остаток: ${p.stock} шт</div>
                             <span class="category-badge">${p.category}</span>
-                            <div class="packaging-info">
-                                📦 В упаковке: 12 шт. · На паллете: 240 шт. · Вес: 5 кг
-                            </div>
                             <div class="messenger-buttons">
                                 <a href="https://wa.me/79137355581?text=Здравствуйте! Меня интересует ${encodeURIComponent(p.name)}. Цена: ${p.price} ₽" 
                                    target="_blank" 
@@ -708,7 +695,7 @@
                                    onclick="event.preventDefault(); event.stopPropagation();">
                                     💬 WhatsApp
                                 </a>
-                                <a href="tg://resolve?phone=79137355581&text=Здравствуйте! Меня интересует ${encodeURIComponent(p.name)}. Цена: ${p.price} ₽" 
+                                <a href="tg://resolve?phone=79137355581?text=Здравствуйте! Меня интересует ${encodeURIComponent(p.name)}. Цена: ${p.price} ₽" 
                                    target="_blank" 
                                    class="messenger-btn telegram-btn"
                                    onclick="event.preventDefault(); event.stopPropagation();">
@@ -749,7 +736,7 @@
                                            style="padding: 0.4rem 0.8rem; font-size: 0.8rem; margin-right: 0.3rem;">
                                             💬 WhatsApp
                                         </a>
-                                        <a href="tg://resolve?phone=79137355581&text=Здравствуйте! Меня интересует ${encodeURIComponent(p.name)}" 
+                                        <a href="tg://resolve?phone=79137355581?text=Здравствуйте! Меня интересует ${encodeURIComponent(p.name)}" 
                                            target="_blank" 
                                            class="messenger-btn telegram-btn"
                                            style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">
