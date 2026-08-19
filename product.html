@@ -157,6 +157,105 @@
             line-height: 1.8;
         }
         
+        .packaging-info {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+            padding: 1rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            border-left: 4px solid #27ae60;
+            font-size: 1rem;
+        }
+        
+        .packaging-info strong {
+            color: #27ae60;
+        }
+        
+        .messenger-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .messenger-btn {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .messenger-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        .whatsapp-btn {
+            background: #25D366;
+            color: white;
+        }
+        
+        .telegram-btn {
+            background: #0088cc;
+            color: white;
+        }
+        
+        .related-products {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            margin: 2rem 0;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+        
+        .related-products h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #667eea;
+        }
+        
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .related-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        
+        .related-card:hover {
+            transform: translateY(-5px);
+            border-color: #667eea;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+        }
+        
+        .related-card h3 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+        
+        .related-card .price {
+            font-size: 1.3rem;
+            color: #e67e22;
+            font-weight: 700;
+        }
+        
         .btn { 
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white; 
@@ -169,6 +268,8 @@
             transition: all 0.3s;
             font-weight: 600;
             box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            text-decoration: none;
+            display: inline-block;
         }
         
         .btn:hover { 
@@ -231,6 +332,9 @@
             .price {
                 font-size: 2rem;
             }
+            .messenger-buttons {
+                flex-direction: column;
+            }
         }
         
         @keyframes fadeIn {
@@ -278,6 +382,7 @@
 
     <script>
         const productId = new URLSearchParams(window.location.search).get('id');
+        let allProducts = [];
 
         async function loadProduct() {
             const container = document.getElementById('productContainer');
@@ -293,9 +398,24 @@
             try {
                 const res = await fetch('data/products.json?v=' + Date.now());
                 const data = await res.json();
-                const products = data.items;
-                const product = products.find(p => p.id == productId);
+                allProducts = data.items;
+                const product = allProducts.find(p => p.id == productId);
                 if (!product) throw new Error();
+                
+                const relatedProducts = getRelatedProducts(product, allProducts);
+                const relatedHtml = relatedProducts.length > 0 ? `
+                    <div class="related-products">
+                        <h2>🛒 С этим товаром покупают:</h2>
+                        <div class="related-grid">
+                            ${relatedProducts.map(r => `
+                                <a href="product.html?id=${r.id}" class="related-card">
+                                    <h3>${escapeHtml(r.name)}</h3>
+                                    <div class="price">💰 ${r.price.toFixed(2)} ₽</div>
+                                </a>
+                            `).join('')}
+                        </div>
+                    </div>
+                ` : '';
                 
                 container.innerHTML = `
                     <a href="catalog.html" class="back-link">← Вернуться в каталог</a>
@@ -310,9 +430,28 @@
                             ${product.volume ? `<p>📏 Объём: <strong>${product.volume}</strong></p>` : ''}
                             ${product.diameter ? `<p>🔘 Диаметр горла: <strong>${product.diameter}</strong></p>` : ''}
                             <div class="description">${escapeHtml(product.description)}</div>
+                            
+                            <div class="packaging-info">
+                                <strong>📦 Упаковка:</strong> В упаковке: 12 шт. · На паллете: 240 шт. · Вес упаковки: 5 кг
+                            </div>
+                            
+                            <div class="messenger-buttons">
+                                <a href="https://wa.me/79137355581?text=Здравствуйте! Меня интересует ${encodeURIComponent(product.name)}. Цена: ${product.price} ₽" 
+                                   target="_blank" 
+                                   class="messenger-btn whatsapp-btn">
+                                    💬 WhatsApp
+                                </a>
+                                <a href="tg://resolve?phone=79137355581&text=Здравствуйте! Меня интересует ${encodeURIComponent(product.name)}. Цена: ${product.price} ₽" 
+                                   target="_blank" 
+                                   class="messenger-btn telegram-btn">
+                                    ✈️ Telegram
+                                </a>
+                            </div>
+                            
                             <a href="tel:+79137355581" class="btn">📲 Заказать</a>
                         </div>
                     </div>
+                    ${relatedHtml}
                 `;
             } catch(e) {
                 container.innerHTML = `
@@ -323,6 +462,12 @@
                     </div>
                 `;
             }
+        }
+
+        function getRelatedProducts(product, allProducts, count = 3) {
+            return allProducts
+                .filter(p => p.category === product.category && p.id !== product.id)
+                .slice(0, count);
         }
 
         function escapeHtml(str) {
