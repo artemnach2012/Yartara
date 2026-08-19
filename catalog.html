@@ -118,11 +118,224 @@
             border-left: 4px solid #667eea;
         }
         
+        .download-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(39, 174, 96, 0.4);
+        }
+        
+        .filters-toggle {
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #2c3e50;
+            transition: all 0.3s;
+        }
+        
+        .filters-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+        }
+        
+        .filters-toggle::after {
+            content: "▼";
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+        }
+        
+        .filters-toggle.active::after {
+            transform: rotate(180deg);
+        }
+        
+        .filters-section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            display: none;
+        }
+        
+        .filters-section.visible {
+            display: block;
+            animation: slideDown 0.3s ease-out;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .filter-group {
+            margin-bottom: 1rem;
+        }
+        
+        .filter-group:last-child {
+            margin-bottom: 0;
+        }
+        
+        .filter-label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: block;
+            color: #2c3e50;
+        }
+        
+        .category-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .category-tag {
+            padding: 0.6rem 1.2rem;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+        
+        .category-tag:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .category-tag.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .view-toggle {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        
+        .view-toggle button {
+            padding: 0.6rem 1.2rem;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .view-toggle button.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .view-toggle button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .price-range {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .price-range input {
+            padding: 0.6rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            width: 150px;
+        }
+        
+        .price-range input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .price-range button {
+            padding: 0.6rem 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .price-range button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        
         .products-grid { 
             display: grid; 
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
             gap: 25px; 
             margin: 2rem 0 3rem;
+        }
+        
+        .products-table {
+            width: 100%;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin: 2rem 0 3rem;
+        }
+        
+        .products-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .products-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .products-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .products-table tr:hover {
+            background: #f8f9fa;
         }
         
         .product-card { 
@@ -203,6 +416,84 @@
             margin-top: 0.8rem;
         }
         
+        .packaging-info {
+            background: #f8f9fa;
+            padding: 0.8rem;
+            border-radius: 10px;
+            margin-top: 0.8rem;
+            font-size: 0.85rem;
+            color: #555;
+            border-left: 3px solid #667eea;
+        }
+        
+        .messenger-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .messenger-btn {
+            flex: 1;
+            padding: 0.6rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.3rem;
+        }
+        
+        .messenger-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .whatsapp-btn {
+            background: #25D366;
+            color: white;
+        }
+        
+        .telegram-btn {
+            background: #0088cc;
+            color: white;
+        }
+        
+        .related-products {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+        }
+        
+        .related-products h4 {
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            color: #667eea;
+        }
+        
+        .related-products ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .related-products li {
+            padding: 0.3rem 0;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        
+        .related-products li::before {
+            content: "→ ";
+            color: #667eea;
+            font-weight: bold;
+        }
+        
         footer { 
             background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
             color: white; 
@@ -238,9 +529,15 @@
                 flex-wrap: wrap;
                 justify-content: center;
             }
+            .products-table {
+                font-size: 0.85rem;
+            }
+            .products-table th,
+            .products-table td {
+                padding: 0.5rem;
+            }
         }
         
-        /* Анимация загрузки */
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -254,6 +551,10 @@
         
         .product-card {
             animation: fadeIn 0.5s ease-out;
+        }
+        
+        .hidden {
+            display: none !important;
         }
     </style>
 </head>
@@ -283,13 +584,50 @@
             <p style="font-size: 1.1rem; opacity: 0.95;">Более 500 позиций оптовой продукции</p>
             <div id="updateInfo" class="update-info">Загрузка...</div>
             <div style="margin-top: 1.5rem;">
+                <a href="data/опт%2027.07.26.xlsx" download class="download-btn">
+                    📥 Скачать прайс-лист (Excel)
+                </a>
+            </div>
+            <div style="margin-top: 1rem;">
                 <input type="text" id="searchInput" placeholder="🔍 Поиск по названию товара..." style="padding: 0.8rem 1.5rem; font-size: 1rem; border: none; border-radius: 50px; width: 100%; max-width: 500px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); outline: none;">
             </div>
         </div>
     </section>
 
-    <div class="container">
+        <div class="container">
+        <div class="filters-toggle" id="filtersToggle">
+            <span>⚙️ Настройки каталога</span>
+        </div>
+        <div class="filters-section" id="filtersSection">
+            <div class="filter-group">
+                <span class="filter-label">📂 Категории:</span>
+                <div class="category-filters" id="categoryFilters">
+                    <button class="category-tag active" data-category="all">Все</button>
+                </div>
+            </div>
+            
+            <div class="filter-group">
+                <span class="filter-label">👁️ Вид отображения:</span>
+                <div class="view-toggle">
+                    <button id="gridViewBtn" class="active">📊 Сетка</button>
+                    <button id="tableViewBtn">📋 Таблица</button>
+                </div>
+            </div>
+            
+            <div class="filter-group">
+                <span class="filter-label">💰 Цена:</span>
+                <div class="price-range">
+                    <input type="number" id="priceFrom" placeholder="От" min="0">
+                    <span>—</span>
+                    <input type="number" id="priceTo" placeholder="До" min="0">
+                    <button id="applyPriceFilter">Применить</button>
+                    <button id="resetPriceFilter" style="background: #95a5a6;">Сбросить</button>
+                </div>
+            </div>
+        </div>
+
         <div id="catalogGrid" class="products-grid"></div>
+        <div id="catalogTable" class="products-table hidden"></div>
     </div>
 
     <footer>
@@ -299,28 +637,151 @@
     </footer>
 
     <script>
+        // Переключатель фильтров
+        document.getElementById('filtersToggle').addEventListener('click', function() {
+            const section = document.getElementById('filtersSection');
+            this.classList.toggle('active');
+            section.classList.toggle('visible');
+        });
+
+        let allProducts = [];
+        let currentCategory = 'all';
+        let currentView = 'grid';
+        let priceFilter = { from: null, to: null };
+
         fetch('data/products.json?v=' + Date.now())
             .then(res => res.json())
             .then(data => {
-                const products = data.items;
+                allProducts = data.items;
                 const lastUpdated = data.last_updated || "неизвестно";
-                document.getElementById('updateInfo').innerHTML = `📅 Прайс-лист обновлён: ${data.last_updated} · Всего товаров: ${products.length}`;
-                const grid = document.getElementById('catalogGrid');
-                grid.innerHTML = products.map((p, index) => `
+                document.getElementById('updateInfo').innerHTML = `📅 Прайс-лист обновлён: ${data.last_updated} · Всего товаров: ${allProducts.length}`;
+                
+                // Динамическая загрузка категорий
+                loadCategories(data.items);
+                
+                renderProducts(allProducts);
+            })
+            .catch(err => {
+                document.getElementById('catalogGrid').innerHTML = '<div class="error-message">❌ Ошибка загрузки. Проверьте, что файл data/products.json существует.</div>';
+                console.error(err);
+            });
+
+        function getRelatedProducts(product, allProducts, count = 3) {
+            return allProducts
+                .filter(p => p.category === product.category && p.id !== product.id)
+                .slice(0, count);
+        }
+
+        function renderProducts(products) {
+            const grid = document.getElementById('catalogGrid');
+            const table = document.getElementById('catalogTable');
+            
+            if (currentView === 'grid') {
+                grid.classList.remove('hidden');
+                table.classList.add('hidden');
+                
+                grid.innerHTML = products.map((p, index) => {
+                    const related = getRelatedProducts(p, allProducts);
+                    const relatedHtml = related.length > 0 ? `
+                        <div class="related-products">
+                            <h4>🛒 С этим товаром покупают:</h4>
+                            <ul>
+                                ${related.map(r => `<li>${escapeHtml(r.name)}</li>`).join('')}
+                            </ul>
+                        </div>
+                    ` : '';
+                    
+                    return `
                     <a href="product.html?id=${p.id}" class="product-link" style="animation-delay: ${index * 0.02}s">
                         <div class="product-card">
                             <h3>${escapeHtml(p.name)}</h3>
                             <div class="price"><span class="price-icon">💰</span> ${p.price.toFixed(2)} ₽</div>
                             <div class="stock">📦 Остаток: ${p.stock} шт</div>
                             <span class="category-badge">${p.category}</span>
+                            <div class="packaging-info">
+                                📦 В упаковке: 12 шт. · На паллете: 240 шт. · Вес: 5 кг
+                            </div>
+                            <div class="messenger-buttons">
+                                <a href="https://wa.me/79137355581?text=Здравствуйте! Меня интересует ${encodeURIComponent(p.name)}. Цена: ${p.price} ₽" 
+                                   target="_blank" 
+                                   class="messenger-btn whatsapp-btn"
+                                   onclick="event.preventDefault(); event.stopPropagation();">
+                                    💬 WhatsApp
+                                </a>
+                                <a href="tg://resolve?phone=79137355581&text=Здравствуйте! Меня интересует ${encodeURIComponent(p.name)}. Цена: ${p.price} ₽" 
+                                   target="_blank" 
+                                   class="messenger-btn telegram-btn"
+                                   onclick="event.preventDefault(); event.stopPropagation();">
+                                    ✈️ Telegram
+                                </a>
+                            </div>
+                            ${relatedHtml}
                         </div>
                     </a>
-                `).join('');
-            })
-            .catch(err => {
-                document.getElementById('catalogGrid').innerHTML = '<div class="error-message">❌ Ошибка загрузки. Проверьте, что файл data/products.json существует.</div>';
-                console.error(err);
+                    `;
+                }).join('');
+            } else {
+                grid.classList.add('hidden');
+                table.classList.remove('hidden');
+                
+                table.innerHTML = `
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Название</th>
+                                <th>Категория</th>
+                                <th>Цена</th>
+                                <th>Остаток</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${products.map(p => `
+                                <tr>
+                                    <td><strong>${escapeHtml(p.name)}</strong></td>
+                                    <td>${p.category}</td>
+                                    <td><strong>${p.price.toFixed(2)} ₽</strong></td>
+                                    <td>${p.stock} шт</td>
+                                    <td>
+                                        <a href="https://wa.me/79137355581?text=Здравствуйте! Меня интересует ${encodeURIComponent(p.name)}" 
+                                           target="_blank" 
+                                           class="messenger-btn whatsapp-btn"
+                                           style="padding: 0.4rem 0.8rem; font-size: 0.8rem; margin-right: 0.3rem;">
+                                            💬 WhatsApp
+                                        </a>
+                                        <a href="tg://resolve?phone=79137355581&text=Здравствуйте! Меня интересует ${encodeURIComponent(p.name)}" 
+                                           target="_blank" 
+                                           class="messenger-btn telegram-btn"
+                                           style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">
+                                            ✈️ Telegram
+                                        </a>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            }
+        }
+
+        function loadCategories(products) {
+            const categoriesContainer = document.getElementById('categoryFilters');
+            const categories = [...new Set(products.map(p => p.category))].sort();
+            
+            // Сохраняем кнопку "Все"
+            const allButton = categoriesContainer.querySelector('[data-category="all"]');
+            categoriesContainer.innerHTML = '';
+            categoriesContainer.appendChild(allButton);
+            
+            // Добавляем категории
+            categories.forEach(cat => {
+                const btn = document.createElement('button');
+                btn.className = 'category-tag';
+                btn.dataset.category = cat;
+                btn.textContent = cat;
+                categoriesContainer.appendChild(btn);
             });
+        }
 
         function escapeHtml(str) {
             return str.replace(/[&<>]/g, m => ({'&':'&','<':'<','>':'>'}[m]));
@@ -330,35 +791,63 @@
         const searchInput = document.getElementById('searchInput');
         if (searchInput) {
             searchInput.addEventListener('input', function() {
-                const query = this.value.toLowerCase().trim();
-                const cards = document.querySelectorAll('.product-card');
-                let visibleCount = 0;
-                
-                cards.forEach(card => {
-                    const name = card.querySelector('h3').textContent.toLowerCase();
-                    if (name.includes(query)) {
-                        card.style.display = '';
-                        visibleCount++;
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-                
-                // Показать сообщение если ничего не найдено
-                const grid = document.getElementById('catalogGrid');
-                let noResults = document.getElementById('noResults');
-                if (visibleCount === 0 && query) {
-                    if (!noResults) {
-                        noResults = document.createElement('div');
-                        noResults.id = 'noResults';
-                        noResults.className = 'error-message';
-                        noResults.textContent = '❌ Товары не найдены. Попробуйте другой запрос.';
-                        grid.parentNode.insertBefore(noResults, grid.nextSibling);
-                    }
-                } else if (noResults) {
-                    noResults.remove();
-                }
+                filterProducts();
             });
+        }
+
+        // Фильтр по категориям
+        document.getElementById('categoryFilters').addEventListener('click', function(e) {
+            if (e.target.classList.contains('category-tag')) {
+                document.querySelectorAll('.category-tag').forEach(tag => tag.classList.remove('active'));
+                e.target.classList.add('active');
+                currentCategory = e.target.dataset.category;
+                filterProducts();
+            }
+        });
+
+        // Переключатель вида
+        document.getElementById('gridViewBtn').addEventListener('click', function() {
+            currentView = 'grid';
+            this.classList.add('active');
+            document.getElementById('tableViewBtn').classList.remove('active');
+            filterProducts();
+        });
+
+        document.getElementById('tableViewBtn').addEventListener('click', function() {
+            currentView = 'table';
+            this.classList.add('active');
+            document.getElementById('gridViewBtn').classList.remove('active');
+            filterProducts();
+        });
+
+        // Фильтр по цене
+        document.getElementById('applyPriceFilter').addEventListener('click', function() {
+            const from = parseFloat(document.getElementById('priceFrom').value);
+            const to = parseFloat(document.getElementById('priceTo').value);
+            priceFilter.from = isNaN(from) ? null : from;
+            priceFilter.to = isNaN(to) ? null : to;
+            filterProducts();
+        });
+
+        document.getElementById('resetPriceFilter').addEventListener('click', function() {
+            document.getElementById('priceFrom').value = '';
+            document.getElementById('priceTo').value = '';
+            priceFilter = { from: null, to: null };
+            filterProducts();
+        });
+
+        function filterProducts() {
+            const searchQuery = searchInput.value.toLowerCase().trim();
+            
+            let filtered = allProducts.filter(p => {
+                const matchesSearch = p.name.toLowerCase().includes(searchQuery);
+                const matchesCategory = currentCategory === 'all' || p.category === currentCategory;
+                const matchesPrice = (!priceFilter.from || p.price >= priceFilter.from) && 
+                                   (!priceFilter.to || p.price <= priceFilter.to);
+                return matchesSearch && matchesCategory && matchesPrice;
+            });
+            
+            renderProducts(filtered);
         }
     </script>
 </body>
