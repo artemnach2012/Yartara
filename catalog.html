@@ -207,36 +207,6 @@
             color: #2c3e50;
         }
         
-        .category-filters {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-        
-        .category-tag {
-            padding: 0.6rem 1.2rem;
-            border: 2px solid #667eea;
-            background: white;
-            color: #667eea;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s;
-            font-size: 0.95rem;
-        }
-        
-        .category-tag:hover {
-            background: #667eea;
-            color: white;
-            transform: translateY(-2px);
-        }
-        
-        .category-tag.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-color: #667eea;
-        }
-        
         .view-toggle {
             display: flex;
             gap: 0.5rem;
@@ -454,36 +424,6 @@
             color: white;
         }
         
-        .related-products {
-            background: #f8f9fa;
-            padding: 1rem;
-            border-radius: 10px;
-            margin-top: 1rem;
-        }
-        
-        .related-products h4 {
-            font-size: 0.95rem;
-            margin-bottom: 0.5rem;
-            color: #667eea;
-        }
-        
-        .related-products ul {
-            list-style: none;
-            padding: 0;
-        }
-        
-        .related-products li {
-            padding: 0.3rem 0;
-            font-size: 0.85rem;
-            color: #555;
-        }
-        
-        .related-products li::before {
-            content: "→ ";
-            color: #667eea;
-            font-weight: bold;
-        }
-        
         footer { 
             background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
             color: white; 
@@ -584,13 +524,13 @@
         </div>
     </section>
 
-        <div class="container">
+    <div class="container">
         <div class="filters-toggle" id="filtersToggle">
             <span>⚙️ Настройки каталога</span>
         </div>
         <div class="filters-section" id="filtersSection">
             <div class="filter-group">
-                <span class="filter-label">️ Вид отображения:</span>
+                <span class="filter-label">👁️ Вид отображения:</span>
                 <div class="view-toggle">
                     <button id="gridViewBtn" class="active">📊 Сетка</button>
                     <button id="tableViewBtn">📋 Таблица</button>
@@ -637,8 +577,7 @@
                 allProducts = data.items;
                 const lastUpdated = data.last_updated || "неизвестно";
                 document.getElementById('updateInfo').innerHTML = `📅 Прайс-лист обновлён: ${data.last_updated} · Всего товаров: ${allProducts.length}`;
-                
-                        renderProducts(allProducts);
+                renderProducts(allProducts);
             })
             .catch(err => {
                 document.getElementById('catalogGrid').innerHTML = '<div class="error-message">❌ Ошибка загрузки. Проверьте, что файл data/products.json существует.</div>';
@@ -668,7 +607,7 @@
                                    onclick="event.preventDefault(); event.stopPropagation();">
                                     💬 WhatsApp
                                 </a>
-                                <a href="tg://resolve?phone=79137355581?text=Здравствуйте! Меня интересует ${encodeURIComponent(p.name)}. Цена: ${p.price} ₽" 
+                                <a href="tg://resolve?phone=79137355581&text=Здравствуйте! Меня интересует ${encodeURIComponent(p.name)}. Цена: ${p.price} ₽" 
                                    target="_blank" 
                                    class="messenger-btn telegram-btn"
                                    onclick="event.preventDefault(); event.stopPropagation();">
@@ -708,7 +647,7 @@
                                            style="padding: 0.4rem 0.8rem; font-size: 0.8rem; margin-right: 0.3rem;">
                                             💬 WhatsApp
                                         </a>
-                                        <a href="tg://resolve?phone=79137355581?text=Здравствуйте! Меня интересует ${encodeURIComponent(p.name)}" 
+                                        <a href="tg://resolve?phone=79137355581&text=Здравствуйте! Меня интересует ${encodeURIComponent(p.name)}" 
                                            target="_blank" 
                                            class="messenger-btn telegram-btn"
                                            style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">
