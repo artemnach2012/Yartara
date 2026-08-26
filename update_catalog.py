@@ -4,7 +4,7 @@ import json
 import datetime
 from pathlib import Path
 
-EXCEL_FILE = "data/опт 21.07.26.xlsx"
+EXCEL_FILE = "data/прайс 25.08.2026.xlsx"
 JSON_FILE = "data/products.json"
 
 if not Path(EXCEL_FILE).exists():
