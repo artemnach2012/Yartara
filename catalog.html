@@ -386,44 +386,6 @@
                 margin-top: 0.6rem;
             }
 
-            .messenger-buttons {
-                display: flex;
-                gap: 0.4rem;
-                margin-top: 0.8rem;
-            }
-
-            .messenger-btn {
-                flex: 1;
-                padding: 0.5rem;
-                border: none;
-                border-radius: 8px;
-                cursor: pointer;
-                font-weight: 600;
-                font-size: 0.75rem;
-                text-decoration: none;
-                text-align: center;
-                transition: all 0.3s;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 0.3rem;
-            }
-            
-            .messenger-btn:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            }
-            
-            .whatsapp-btn {
-                background: #25D366;
-                color: white;
-            }
-            
-            .telegram-btn {
-                background: #0088cc;
-                color: white;
-            }
-            
             footer { 
                 background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
                 color: white; 
@@ -610,20 +572,6 @@
                                 <div class="price"><span class="price-icon">💰</span> ${p.price.toFixed(2)} ₽</div>
                                 <div class="stock">📦 Остаток: ${p.stock} шт</div>
                                 <span class="category-badge">${p.category}</span>
-                                <div class="messenger-buttons">
-                                    <a href="https://wa.me/79137355581?text=Здравствуйте! Меня интересует ${encodeURIComponent(p.name)}. Цена: ${p.price} ₽" 
-                                    target="_blank" 
-                                    class="messenger-btn whatsapp-btn"
-                                    onclick="event.preventDefault(); event.stopPropagation();">
-                                        💬 WhatsApp
-                                    </a>
-                                    <a href="tg://resolve?phone=79137355581&text=Здравствуйте! Меня интересует ${encodeURIComponent(p.name)}. Цена: ${p.price} ₽" 
-                                    target="_blank" 
-                                    class="messenger-btn telegram-btn"
-                                    onclick="event.preventDefault(); event.stopPropagation();">
-                                        ✈️ Telegram
-                                    </a>
-                                </div>
                             </div>
                         </a>
                         `;
@@ -640,7 +588,6 @@
                                     <th>Категория</th>
                                     <th>Цена</th>
                                     <th>Остаток</th>
-                                    <th>Действия</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -650,20 +597,6 @@
                                         <td>${p.category}</td>
                                         <td><strong>${p.price.toFixed(2)} ₽</strong></td>
                                         <td>${p.stock} шт</td>
-                                        <td>
-                                            <a href="https://wa.me/79137355581?text=Здравствуйте! Меня интересует ${encodeURIComponent(p.name)}" 
-                                            target="_blank" 
-                                            class="messenger-btn whatsapp-btn"
-                                            style="padding: 0.4rem 0.8rem; font-size: 0.8rem; margin-right: 0.3rem;">
-                                                💬 WhatsApp
-                                            </a>
-                                            <a href="tg://resolve?phone=79137355581&text=Здравствуйте! Меня интересует ${encodeURIComponent(p.name)}" 
-                                            target="_blank" 
-                                            class="messenger-btn telegram-btn"
-                                            style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">
-                                                ✈️ Telegram
-                                            </a>
-                                        </td>
                                     </tr>
                                 `).join('')}
                             </tbody>
